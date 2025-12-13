@@ -1,0 +1,93 @@
+
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  name        String?
+  email       String   @unique
+  password    String?
+  companyName String?  // New field
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  jobs        Job[]
+}
+
+model Job {
+  id                     String   @id @default(cuid())
+  title                  String
+  briefDesc              String    // Renamed from description
+  keyResponsibilities    String?   // New
+  requiredQualifications String?   // New
+  postDate               DateTime? // New
+  jobType                String?   // Internship, Fresher, Experienced
+  workMode               String?   // Remote, On-site, Hybrid
+  location               String
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+  
+  recruiterId String   // Renamed from createdById
+  recruiter   User     @relation(fields: [recruiterId], references: [id])
+  
+  applications Application[]
+}
+
+model Applicant {
+  id          String   @id @default(cuid())
+  name        String
+  email       String   @unique
+  address     String?  // New
+  nationalId  String?  // New
+  dob         DateTime? // New
+  age         Int?     // New
+  gender      String?  // New
+  profileInfo String?  // New
+  phone       String?
+  resumeUrl   String?  // New/Existing as "resumeUrl" in User request was "Resume Link"
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  applications Application[]
+}
+
+enum ApplicationStatus {
+  NEW
+  REVIEW
+  INTERVIEW
+  OFFER
+  REJECTED
+}
+
+model Application {
+  id          String            @id @default(cuid())
+  jobId       String
+  applicantId String
+  status      ApplicationStatus @default(NEW)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  
+  job       Job       @relation(fields: [jobId], references: [id])
+  applicant Applicant @relation(fields: [applicantId], references: [id])
+  notes     Note[]
+}
+
+model Note {
+  id            String      @id @default(cuid())
+  content       String
+  applicationId String
+  createdAt     DateTime    @default(now())
+  createdBy     String?     // New (optional based on spec, but good to have)
+  
+  application Application @relation(fields: [applicationId], references: [id])
+}
