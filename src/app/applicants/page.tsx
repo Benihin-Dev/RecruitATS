@@ -4,6 +4,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import ApplicantList from "@/components/ApplicantList";
 
+export const dynamic = 'force-dynamic';
+
+
 export default async function ApplicantsPage() {
     const session = await getServerSession(authOptions);
     let applicants: any[] = [];

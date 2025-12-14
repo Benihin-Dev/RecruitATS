@@ -6,6 +6,9 @@ import JobCard from "../../components/JobCard";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
+export const dynamic = 'force-dynamic';
+
+
 // Helper to calculate days ago
 const daysAgo = (date: Date) => {
     const diff = new Date().getTime() - new Date(date).getTime();

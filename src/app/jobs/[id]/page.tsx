@@ -5,6 +5,9 @@ import Link from "next/link";
 import ApplicationStatusBadge from "@/components/ApplicationStatusBadge";
 import { PrimaryButton } from "@/components/ui/Buttons";
 
+export const dynamic = 'force-dynamic';
+
+
 async function getJob(id: string) {
     try {
         const job = await prisma.job.findUnique({

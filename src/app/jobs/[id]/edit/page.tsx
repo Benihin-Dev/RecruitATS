@@ -2,6 +2,9 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import JobForm from "@/components/JobForm";
 
+export const dynamic = 'force-dynamic';
+
+
 interface PageProps {
     params: Promise<{ id: string }>;
 }

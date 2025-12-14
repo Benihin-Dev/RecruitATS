@@ -2,6 +2,9 @@ import { prisma } from "@/lib/prisma";
 import ApplicantForm from "@/components/ApplicantForm";
 import { notFound } from "next/navigation";
 
+export const dynamic = 'force-dynamic';
+
+
 export default async function EditApplicant({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
     const applicant = await prisma.applicant.findUnique({

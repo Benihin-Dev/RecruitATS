@@ -1,6 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import ApplicationForm from "@/components/ApplicationForm";
 
+export const dynamic = 'force-dynamic';
+
+
 export default async function NewApplicationPage() {
     const jobs = await prisma.job.findMany({ select: { id: true, title: true, location: true } });
     const applicants = await prisma.applicant.findMany({ select: { id: true, name: true, email: true, resumeUrl: true } });

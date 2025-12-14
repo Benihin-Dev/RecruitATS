@@ -5,6 +5,9 @@ import { notFound } from "next/navigation";
 import ApplicationStatusBadge from "@/components/ApplicationStatusBadge";
 import { SecondaryButton } from "@/components/ui/Buttons";
 
+export const dynamic = 'force-dynamic';
+
+
 async function getApplicant(id: string) {
     try {
         return await prisma.applicant.findUnique({
