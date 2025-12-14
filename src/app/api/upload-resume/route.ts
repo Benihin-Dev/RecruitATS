@@ -4,6 +4,9 @@ import { createClient } from "@supabase/supabase-js";
 // Use require for pdf-parse due to module compatibility
 const pdf = require('pdf-parse');
 
+export const dynamic = 'force-dynamic';
+
+
 export async function POST(req: NextRequest) {
     try {
         const formData = await req.formData();
