@@ -5,8 +5,17 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
 export async function GET(req: Request) {
+    const session = await getServerSession(authOptions);
+
+    if (!session || !session.user) {
+        return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
     try {
         const jobs = await prisma.job.findMany({
+            where: {
+                recruiterId: (session.user as any).id
+            },
             orderBy: { createdAt: "desc" },
             include: {
                 _count: {

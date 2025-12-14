@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer"; // Import Footer
 
 import { Providers } from "@/components/Providers";
 
@@ -23,9 +24,10 @@ export default function RootLayout({
       <body className={`${inter.className} bg-slate-50 text-gray-900 antialiased`}>
         <Providers>
           <Navbar />
-          <main className="min-h-screen pt-10">
+          <main className="min-h-screen pt-0 pb-10 flex flex-col">
             {children}
           </main>
+          <Footer />
         </Providers>
       </body>
     </html>

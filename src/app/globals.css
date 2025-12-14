@@ -27,10 +27,28 @@
   }
 }
 
+@keyframes progress {
+  0% {
+    width: 0%;
+  }
+
+  50% {
+    width: 70%;
+  }
+
+  100% {
+    width: 100%;
+  }
+}
+
 .animate-fade-in {
   animation: fadeInScale 0.4s ease-out forwards;
 }
 
 .animate-slide-up {
   animation: slideUp 0.5s ease-out forwards;
+}
+
+.animate-progress {
+  animation: progress 2s ease-in-out infinite;
 }

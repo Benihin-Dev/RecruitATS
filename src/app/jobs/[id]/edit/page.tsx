@@ -2,8 +2,13 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import JobForm from "@/components/JobForm";
 
-export default async function EditJob({ params }: { params: Promise<{ id: string }> }) {
+interface PageProps {
+    params: Promise<{ id: string }>;
+}
+
+export default async function EditJobPage({ params }: PageProps) {
     const { id } = await params;
+
     const job = await prisma.job.findUnique({
         where: { id },
     });
@@ -13,15 +18,15 @@ export default async function EditJob({ params }: { params: Promise<{ id: string
     }
 
     return (
-        <div className="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
-            <div className="md:flex md:items-center md:justify-between mb-8">
-                <div className="flex-1 min-w-0">
-                    <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
-                        Edit Job: {job.title}
-                    </h2>
-                </div>
+        <div className="w-11/12 mx-auto pb-12 pt-24 sm:px-6 lg:px-8">
+            <div className="text-center mb-10">
+                <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-orange-600 sm:text-4xl">
+                    Edit Job Posting
+                </h1>
+                <p className="mt-2 text-lg text-gray-600">
+                    Update the details for <span className="font-semibold text-gray-900">{job.title}</span>.
+                </p>
             </div>
-
             <JobForm initialData={job} isEditMode={true} />
         </div>
     );

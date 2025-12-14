@@ -26,7 +26,7 @@ export default async function ApplicantDetail({ params }: { params: Promise<{ id
     if (!applicant) notFound();
 
     return (
-        <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-8">
+        <div className="max-w-7xl mx-auto pb-8 pt-24 px-4 sm:px-6 lg:px-8 space-y-8">
             {/* Header */}
             <div className="bg-white shadow rounded-lg overflow-hidden">
                 <div className="px-6 py-8">
@@ -98,6 +98,15 @@ export default async function ApplicantDetail({ params }: { params: Promise<{ id
                                         <div>
                                             <p className="font-semibold text-primary text-lg">{app.job.title}</p>
                                             <p className="text-sm text-gray-500">Applied on {new Date(app.createdAt).toLocaleDateString()}</p>
+
+                                            {/* Show specific resume if one exists for this application */}
+                                            {/* @ts-ignore - resumeUrl might be missing in types until full codegen but schema has it */}
+                                            {app.resumeUrl && app.resumeUrl !== applicant.resumeUrl && (
+                                                <div className="mt-1 flex items-center text-xs text-indigo-600">
+                                                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                                                    Custom Resume Used
+                                                </div>
+                                            )}
                                         </div>
                                         <div className="flex items-center">
                                             <ApplicationStatusBadge status={app.status} />

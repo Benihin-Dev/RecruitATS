@@ -7,7 +7,6 @@ import Hero from "@/components/landing/Hero";
 import Stats from "@/components/landing/Stats";
 import Features from "@/components/landing/Features";
 import Testimonials from "@/components/landing/Testimonials";
-import Footer from "@/components/landing/Footer";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -26,7 +25,6 @@ function LandingPage() {
       <Stats />
       <Features />
       <Testimonials />
-      <Footer />
     </div>
   );
 }

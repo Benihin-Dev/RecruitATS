@@ -70,7 +70,10 @@ export async function updateApplicant(id: string, data: any) {
                 address: data.address,
                 phone: data.phone,
                 profileInfo: data.profileInfo,
-                resumeUrl: data.resumeUrl
+                resumeUrl: data.resumeUrl,
+                coreSkills: data.coreSkills,
+                experience: data.experience,
+                education: data.education,
             }
         });
         revalidatePath("/applicants");
@@ -84,16 +87,79 @@ export async function updateApplicant(id: string, data: any) {
 
 // --- Application Actions ---
 
+
 export async function deleteApplication(id: string) {
     try {
         await prisma.application.delete({
             where: { id },
         });
-        revalidatePath("/applications"); // Assuming there's a list
-        // You might also need to revalidate the job page if it shows counts
+        revalidatePath("/applications");
+        revalidatePath("/dashboard");
         return { success: true };
     } catch (error) {
         console.error("Failed to delete application:", error);
         return { success: false, error: "Failed to delete application" };
     }
 }
+
+export async function createApplicant(data: any) {
+    try {
+        // Basic validation could go here
+        const applicant = await prisma.applicant.create({
+            data: {
+                name: data.name,
+                email: data.email,
+                phone: data.phone,
+                resumeUrl: data.resumeUrl,
+                nationalId: data.nationalId,
+                address: data.address,
+                dob: data.dob ? new Date(data.dob) : undefined,
+                gender: data.gender,
+                profileInfo: data.profileInfo,
+                coreSkills: data.coreSkills,
+                experience: data.experience,
+                education: data.education,
+            },
+        });
+        revalidatePath("/applicants");
+        return { success: true, data: applicant };
+    } catch (error) {
+        console.error("Failed to create applicant:", error);
+        return { success: false, error: "Failed to create applicant" };
+    }
+}
+
+export async function createApplication(data: any) {
+    try {
+        const application = await prisma.application.create({
+            data: {
+                jobId: data.jobId,
+                applicantId: data.applicantId,
+                status: data.status || "NEW",
+                // resumeUrl: data.resumeUrl, // Temporarily disabled due to migration failure
+            },
+        });
+        revalidatePath("/applications");
+        revalidatePath("/dashboard");
+        return { success: true, data: application };
+    } catch (error) {
+        console.error("Failed to create application:", error);
+        return { success: false, error: "Failed to create application" };
+    }
+}
+
+export async function updateApplicationStatus(id: string, status: any) {
+    try {
+        await prisma.application.update({
+            where: { id },
+            data: { status },
+        });
+        revalidatePath("/applications");
+        revalidatePath(`/applications/${id}`);
+        return { success: true };
+    } catch (error) {
+        console.error("Failed to update application status:", error);
+        return { success: false, error: "Failed to update application status" };
+    }
+}
+

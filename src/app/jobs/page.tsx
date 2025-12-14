@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { PrimaryButton } from "@/components/ui/Buttons";
 import JobCard from "../../components/JobCard";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 // Helper to calculate days ago
 const daysAgo = (date: Date) => {
@@ -11,21 +13,28 @@ const daysAgo = (date: Date) => {
 };
 
 export default async function JobsPage() {
+    const session = await getServerSession(authOptions);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let jobs: any[] = [];
-    try {
-        jobs = await prisma.job.findMany({
-            orderBy: { createdAt: "desc" },
-            include: {
-                _count: { select: { applications: true } },
-            },
-        });
-    } catch {
-        console.error("Failed to fetch jobs");
+
+    if (session?.user && (session.user as any).id) {
+        try {
+            jobs = await prisma.job.findMany({
+                where: {
+                    recruiterId: (session.user as any).id
+                },
+                orderBy: { createdAt: "desc" },
+                include: {
+                    _count: { select: { applications: true } },
+                },
+            });
+        } catch {
+            console.error("Failed to fetch jobs");
+        }
     }
 
     return (
-        <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 mt-16">
+        <div className="w-11/12 mx-auto py-12 sm:px-6 lg:px-8 mt-16">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-10 gap-4">
                 <div>
                     <h1 className="text-4xl font-bold text-gray-900 tracking-tight">Open Positions</h1>
@@ -41,7 +50,9 @@ export default async function JobsPage() {
                     <div className="text-6xl mb-4">📭</div>
                     <h3 className="text-xl font-medium text-gray-900">No jobs posted yet</h3>
                     <p className="text-gray-500 mb-6">Get started by creating your first job posting.</p>
-                    <Link href="/jobs/new"><PrimaryButton>Create Job</PrimaryButton></Link>
+                    <div className=" w-full flex items-center justify-center">
+                        <Link href="/jobs/new"><PrimaryButton>Create Job</PrimaryButton></Link>
+                    </div>
                 </div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

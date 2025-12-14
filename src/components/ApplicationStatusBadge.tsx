@@ -12,7 +12,7 @@ export default function ApplicationStatusBadge({ status }: { status: string }) {
 
     return (
         <span
-            className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${colors[status] || "bg-gray-100 text-gray-800"
+            className={`px-3 inline-flex text-xs leading-5 font-semibold rounded-xl py-1 ${colors[status] || "bg-gray-100 text-gray-800"
                 }`}
         >
             {status}

@@ -31,7 +31,7 @@ export default async function JobDetail({ params }: { params: Promise<{ id: stri
     }
 
     return (
-        <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-8">
+        <div className="w-11/12 mx-auto pb-8 pt-24 px-4 sm:px-6 lg:px-8 space-y-8">
             {/* Header */}
             <div className="md:flex md:items-center md:justify-between bg-white px-6 py-8 rounded-lg shadow-sm border border-gray-100">
                 <div className="flex-1 min-w-0">
@@ -69,32 +69,58 @@ export default async function JobDetail({ params }: { params: Promise<{ id: stri
                 <div className="mt-4 flex md:mt-0 md:ml-4">
                     {/* Link to manual add application page if we had one, or edit */}
                     <Link href={`./${job.id}/edit`}>
-                        <PrimaryButton disabled>Edit Job (Coming Soon)</PrimaryButton>
+                        <PrimaryButton>Edit Job</PrimaryButton>
                     </Link>
                 </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Main Content: Description */}
-                <div className="lg:col-span-2 space-y-6">
-                    <section className="bg-white shadow rounded-lg p-6">
-                        <h3 className="text-lg font-bold text-gray-900 border-b pb-2 mb-4">Description</h3>
-                        <p className="whitespace-pre-wrap text-gray-700 leading-relaxed">{job.briefDesc}</p>
+                {/* Main Content: Job Details */}
+                <div className="lg:col-span-2">
+                    <section className="bg-white shadow-sm rounded-2xl p-8 border border-gray-100">
+                        <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                            <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            Job Details
+                        </h3>
+
+                        <div className="space-y-6">
+                            {/* Description */}
+                            <div>
+                                <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Description</h4>
+                                <p className="text-gray-700 leading-relaxed">{job.briefDesc}</p>
+                            </div>
+
+                            {/* Key Responsibilities */}
+                            {job.keyResponsibilities && (
+                                <div>
+                                    <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Key Responsibilities</h4>
+                                    <ul className="space-y-2">
+                                        {job.keyResponsibilities.split('\n').filter(line => line.trim()).map((line, idx) => (
+                                            <li key={idx} className="flex items-start gap-3 text-gray-700">
+                                                <svg className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path></svg>
+                                                <span>{line.trim().replace(/^[•\-*]\s*/, '')}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+
+                            {/* Required Qualifications */}
+                            {job.requiredQualifications && (
+                                <div>
+                                    <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Required Qualifications</h4>
+                                    <ul className="space-y-2">
+                                        {job.requiredQualifications.split('\n').filter(line => line.trim()).map((line, idx) => (
+                                            <li key={idx} className="flex items-start gap-3 text-gray-700">
+                                                <svg className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path></svg>
+                                                <span>{line.trim().replace(/^[•\-*]\s*/, '')}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+                        </div>
                     </section>
-
-                    {job.keyResponsibilities && (
-                        <section className="bg-white shadow rounded-lg p-6">
-                            <h3 className="text-lg font-bold text-gray-900 border-b pb-2 mb-4">Key Responsibilities</h3>
-                            <div className="whitespace-pre-wrap text-gray-700 leading-relaxed">{job.keyResponsibilities}</div>
-                        </section>
-                    )}
-
-                    {job.requiredQualifications && (
-                        <section className="bg-white shadow rounded-lg p-6">
-                            <h3 className="text-lg font-bold text-gray-900 border-b pb-2 mb-4">Required Qualifications</h3>
-                            <div className="whitespace-pre-wrap text-gray-700 leading-relaxed">{job.requiredQualifications}</div>
-                        </section>
-                    )}
                 </div>
 
                 {/* Sidebar: Applications */}

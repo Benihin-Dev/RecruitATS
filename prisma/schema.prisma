@@ -55,6 +55,9 @@ model Applicant {
   profileInfo String?  // New
   phone       String?
   resumeUrl   String?  // New/Existing as "resumeUrl" in User request was "Resume Link"
+  coreSkills  String?  // Core technical/professional skills
+  experience  String?  // Professional work history
+  education   String?  // Educational background
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   
@@ -74,11 +77,12 @@ model Application {
   jobId       String
   applicantId String
   status      ApplicationStatus @default(NEW)
+  resumeUrl   String?           // Specific resume for this application
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
   
-  job       Job       @relation(fields: [jobId], references: [id])
-  applicant Applicant @relation(fields: [applicantId], references: [id])
+  job       Job       @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  applicant Applicant @relation(fields: [applicantId], references: [id], onDelete: Cascade)
   notes     Note[]
 }
 
@@ -89,5 +93,5 @@ model Note {
   createdAt     DateTime    @default(now())
   createdBy     String?     // New (optional based on spec, but good to have)
   
-  application Application @relation(fields: [applicationId], references: [id])
+  application Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
 }
