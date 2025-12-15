@@ -343,13 +343,13 @@ export default function ApplicantForm({ initialData, isEditMode = false, onSucce
                     <div>
                         <label className={labelClassName}>Phone</label>
                         <input type="text" name="phone" value={formData.phone} onChange={handleChange}
-                            className={inputClassName} placeholder="+1 (555) 000-0000" />
+                            className={inputClassName} placeholder="+94772206096" />
                     </div>
 
                     <div>
                         <label className={labelClassName}>National ID</label>
                         <input type="text" name="nationalId" value={formData.nationalId} onChange={handleChange}
-                            className={inputClassName} placeholder="ID-12345678" />
+                            className={inputClassName} placeholder="ID-199945621478" />
                     </div>
 
                     <div>
