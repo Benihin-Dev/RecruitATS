@@ -116,7 +116,7 @@ export default function SignIn() {
     <p className="text-gray-600">
       Email address: <span className="text-gray-400 text-xs">sample@gmail.com</span>
     </p>
-    <p className="text-gray-600 mt-2">
+    <p className="text-gray-600">
       Password: <span className="text-gray-400 text-xs">12341234</span>
     </p>     
                          </div>
