@@ -111,7 +111,16 @@ export default function SignIn() {
                         </div>
                     </form>
                     <div className="mt-8">
-                        <div className="relative">
+                         <div className="relative text-sm ">
+                         <p className="text-gray-900 font-medium">Demo Credentials</p>
+    <p className="text-gray-600">
+      Email address: <span className="text-gray-400 text-xs">sample@gmail.com</span>
+    </p>
+    <p className="text-gray-600 mt-2">
+      Password: <span className="text-gray-400 text-xs">12341234</span>
+    </p>     
+                         </div>
+                        <div className="relative mt-3">
                             <div className="absolute inset-0 flex items-center">
                                 <div className="w-full border-t border-gray-200" />
                             </div>
